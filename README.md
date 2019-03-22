@@ -4,5 +4,6 @@ This repository contains code and reports for Pattern Recognition course project
 # Group Members:
 Pinar Goktepe, 
 Dusan Mihajlov, 
-Stefan Jonas
-Rachel Korn
+Stefan Jonas,
+Rachel Korn,
+Patrick Hodel

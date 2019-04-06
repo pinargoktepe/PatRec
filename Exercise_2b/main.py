@@ -94,7 +94,7 @@ for i in np.arange(0,n_in):
         f_train_losses, f_val_losses, f_train_accuracies, f_val_accuracies = train_losses, val_losses, train_accuracies, val_accuracies
 
 
-print("Best model at initalization "+str(i+1))
+print("Best model at initalization "+str(best_i+1))
 plot(n_epochs, f_train_losses, f_val_losses, f_train_accuracies, f_val_accuracies) 	# plot graphs
 
 # Get test accuracy and print it

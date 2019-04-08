@@ -31,7 +31,10 @@ Accuracy to predict the test data showed similar with best results at a learning
 Combined from this results, a learning rate of 0.1 and 30 epochs were further used.
 
 # Effect of random initialization
-To 
+For this, the flag `<--mulit-run 5>` were set what runs the CNN with 5 different random initializations.
+
 
 # Accuracy with the best parameters found
-Results coming soon...
+![Confusion matrix validation](https://github.com/pinargoktepe/PatRec/blob/master/Exercise_2c/figures/test.png)
+
+![Confusion matrix test](https://github.com/pinargoktepe/PatRec/blob/master/Exercise_2c/figures/test.png)

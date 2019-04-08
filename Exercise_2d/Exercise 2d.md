@@ -1,5 +1,5 @@
 # CNN (task 2c) on permutated MNIST dataset
-Under the same parameters (epochs = 30, learning rate = 0.1), the two MNIST datasets gave different results, whereby the non-permutated dataset perfomed slightly better with a total accuracy of  98.392 % after 30 epochs vs. 95.990 % in the permutated dataset. Compare also the confusion matrices below.
+Under the same parameters (epochs = 30, learning rate = 0.1) and with the model_task2c.py from task 2c, the two MNIST datasets gave different results, whereby the non-permutated dataset perfomed slightly better with a total accuracy of  98.392 % after 30 epochs vs. 95.990 % in the permutated dataset. Compare also the confusion matrices below.
 These differences stem from stochastic effects, wherefore the pooled results of several initial runs are preferred over single runs alone.
 
 

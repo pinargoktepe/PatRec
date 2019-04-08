@@ -20,17 +20,18 @@ To optimize the accuracy of prediction, the values of learning rate and number o
 | 50 | x | x | x | x | x |
 
 
-**Temporary graphs:**
-Accuracy to classify train data...
+In general, accuracy to classify train data increased with increasing epochs and plateaued starting at epoch = 30 over 95 % accuracy. It was higher at a higher learning rate of 0.1.
+
 ![Accuracy to classify train data](https://github.com/pinargoktepe/PatRec/blob/master/Exercise_2c/figures/train.png)
 
 
-Accuracy to predict test data...
+Accuracy to predict the test data showed similar with best results at a learning rate of 0.1 with accuracy of > 98 % at all tested values of epochs. But also a learning rate of 0.05 gave almost the same results.
 ![Accuracy to predict test data](https://github.com/pinargoktepe/PatRec/blob/master/Exercise_2c/figures/test.png)
 
+Combined from this results, a learning rate of 0.1 and 30 epochs were further used.
 
 # Effect of random initialization
-Results coming soon...
+To 
 
 # Accuracy with the best parameters found
 Results coming soon...

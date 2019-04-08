@@ -1,9 +1,9 @@
 # CNN (task 2c) on permutated MNIST dataset
 
 ## Without permutation of the data:
-![Accuracy to predict test data](https://github.com/pinargoktepe/PatRec/blob/master/Exercise_2c/figures/test.png)
+![Confusion matrix validation](https://github.com/pinargoktepe/PatRec/blob/master/Exercise_2c/figures/CNN_30_0.1_val_confusion_matrix_29.png)
 
-![Accuracy to classify train data](https://github.com/pinargoktepe/PatRec/blob/master/Exercise_2c/figures/train.png)
+![Confusion matrix test](https://github.com/pinargoktepe/PatRec/blob/master/Exercise_2c/figures/CNN_30_0.1_test_confusion_matrix_29.png)
 
 
 ## With permutation of the data:

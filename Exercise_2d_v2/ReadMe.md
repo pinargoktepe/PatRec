@@ -4,6 +4,7 @@ For all four experiments I used:
  - Number of epochs: 25
  - Learning rate: 0.001
 
+Experiments were run using DeepDIVA. Model from exercise 2b is included using the file Simple_MLP.py
 # Permuted MNIST on MLP
 
 First, let's compare results between MLP network trained on MNIST and one trained on Permutated MNIST:

@@ -35,6 +35,6 @@ For this, the flag `<--mulit-run 5>` were set what runs the CNN with 5 different
 
 
 # Accuracy with the best parameters found
-![Confusion matrix validation](https://github.com/pinargoktepe/PatRec/blob/master/Exercise_2c/figures/test.png)
+![Confusion matrix validation](https://github.com/pinargoktepe/PatRec/blob/master/Exercise_2c/figures/CNN_30_0.1_val_confusion_matrix_29.png)
 
-![Confusion matrix test](https://github.com/pinargoktepe/PatRec/blob/master/Exercise_2c/figures/test.png)
+![Confusion matrix test](https://github.com/pinargoktepe/PatRec/blob/master/Exercise_2c/figures/CNN_30_0.1_test_confusion_matrix_29.png)

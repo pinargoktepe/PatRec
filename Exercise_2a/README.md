@@ -7,6 +7,18 @@
 # Results
 
 Kernel: linear
+
 Average Cross Validation Score: 0.9134057781682117
+
 C: 1.0
+
+Gamma: 0.0012755102040816326
+
+
+Kernel: rbf
+
+Average Cross Validation Score: 0.11192585501569667
+
+C: 1.0
+
 Gamma: 0.0012755102040816326

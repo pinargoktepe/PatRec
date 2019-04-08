@@ -1,3 +1,4 @@
+# Complete CNN in model_task2c.py
 To complete model_task2c.py, a CNN implementation, following parameters were calculated from the given script:
 
   * from the MNIST image size: self.expected_input_size = (28, 28)
@@ -7,6 +8,7 @@ To complete model_task2c.py, a CNN implementation, following parameters were cal
     - Now, 28 = 3 x 8 + 4 so the kernel_size is 7 and the output image has dimensions 8 x 8
   * for the 10 classes, the 10 digits: nn.Linear(1536, 10)
 
+# Manually optimize accuracy depending on parameters
 To optimize the accuracy of prediction, the values of learning rate and number of epochs were iteratively modified (cells with 'x' were actually run):
 
 | Epochs/Learning rate | 0.001 | 0.005 | 0.01 | 0.05 | 0.1 |
@@ -16,3 +18,19 @@ To optimize the accuracy of prediction, the values of learning rate and number o
 | 30 | x | x | x | x | x |
 | 40 | x |   |   |   |   |
 | 50 | x | x | x | x | x |
+
+
+**Temporary graphs:**
+Accuracy to classify train data...
+![Accuracy to classify train data](https://github.com/pinargoktepe/PatRec/blob/master/Exercise_2c/test.png)
+
+
+Accuracy to predict test data...
+![Accuracy to predict test data](https://github.com/pinargoktepe/PatRec/blob/master/Exercise_2c/test.png)
+
+
+# Effect of random initialization
+Results coming soon...
+
+# Accuracy with the best parameters found
+Results coming soon...

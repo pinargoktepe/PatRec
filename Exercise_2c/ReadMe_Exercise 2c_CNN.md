@@ -22,11 +22,11 @@ To optimize the accuracy of prediction, the values of learning rate and number o
 
 **Temporary graphs:**
 Accuracy to classify train data...
-![Accuracy to classify train data](https://github.com/pinargoktepe/PatRec/blob/master/Exercise_2c/test.png)
+![Accuracy to classify train data](https://github.com/pinargoktepe/PatRec/blob/master/Exercise_2c/figures/train.png)
 
 
 Accuracy to predict test data...
-![Accuracy to predict test data](https://github.com/pinargoktepe/PatRec/blob/master/Exercise_2c/test.png)
+![Accuracy to predict test data](https://github.com/pinargoktepe/PatRec/blob/master/Exercise_2c/figures/test.png)
 
 
 # Effect of random initialization

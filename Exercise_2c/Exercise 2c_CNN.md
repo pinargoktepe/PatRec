@@ -20,7 +20,7 @@ To optimize the accuracy of prediction, the values of learning rate and number o
 | 50 | x | x | x | x | x |
 
 
-In general, accuracy to classify train data increased with increasing epochs and plateaued starting at epoch = 30 over 95 % accuracy. It was higher at a higher learning rate of 0.1.
+In general, accuracy to classify train data increased with increasing epochs and plateaued starting at epoch = 30 over 95 % accuracy. It was higher at a higher learning rate of 0.1. Unfortunately, this is difficult to see in the TensorBoard plots, especially as they miss a comprehensive legend (at least I couldn't spot any).
 
 ![Accuracy to classify train data](https://github.com/pinargoktepe/PatRec/blob/master/Exercise_2c/figures/train.png)
 
@@ -31,9 +31,13 @@ Accuracy to predict the test data showed similar with best results at a learning
 Combined from this results, a learning rate of 0.1 and 30 epochs were further used.
 
 # Effect of random initialization
-For this, the flag `<--mulit-run 5>` were set what runs the CNN with 5 different random initializations.
+For this, the flag `<--multi-run 10>` were set what runs the CNN 10 times with each a different random initialization.
 
-The outcome accuracy changed slightly (98.242, 98.425, 98.275, ...) ...
+The outcome accuracy changed slightly (98.242, 98.425, 98.275, 98.300, 98.267, 98.367, 98.258, 98.392, 98.183 and 98.208 %) over the runs, what refered to an average of 98.242 % (*SD* = 0.0795). These slight differences are barely visible in the summarizing plots:
+
+![Multi-run train](https://github.com/pinargoktepe/PatRec/blob/master/Exercise_2c/figures/multirun_train.png)
+
+![Multi-run validation](https://github.com/pinargoktepe/PatRec/blob/master/Exercise_2c/figures/multirun_val.png)
 
 
 # Accuracy with the best parameters found

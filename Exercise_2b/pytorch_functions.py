@@ -113,6 +113,7 @@ def train(model, train_dataloader, val_dataloader, optimizer, n_epochs, loss_fun
 # Test model with testdataset
 def test(dataloader, model):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    model = model.to(device)
     with torch.no_grad():
         correct_predictions = 0
         for images, labels in dataloader:

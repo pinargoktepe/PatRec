@@ -1,5 +1,6 @@
 import numpy as np
 import torch
+from copy import deepcopy
 from pytorch_functions import plot, train, test, SimpleModel
 import torch.nn as nn
 import torchvision
@@ -90,7 +91,7 @@ for i in np.arange(0,n_in):
     if val_accuracies[-1]>val_old:
         val_old = val_accuracies[-1]
         best_i = i
-        best_mod = model
+        best_mod = deepcopy(model)
         f_train_losses, f_val_losses, f_train_accuracies, f_val_accuracies = train_losses, val_losses, train_accuracies, val_accuracies
 
 

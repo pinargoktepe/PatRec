@@ -54,9 +54,12 @@ def splitData(folder, train_file, val_file):
     writeDataToFolder(lines_train, gt_locationsFolder, train_folder_gt, ".svg")
     writeDataToFolder(lines_val, gt_locationsFolder, validation_folder_gt, ".svg")
 
+    return train_folder, lines_train, validation_folder, lines_val
 
-folder = "../../PatRec17_KWS_Data/"
-train_file = folder + "task/train.txt"
-val_file = folder + "task/valid.txt"
 
-splitData(folder, train_file, val_file)
+
+#folder = "../../PatRec17_KWS_Data/"
+#train_file = folder + "task/train.txt"
+#val_file = folder + "task/valid.txt"
+
+#splitData(folder, train_file, val_file)

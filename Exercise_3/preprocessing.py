@@ -1,22 +1,24 @@
 from getData import writeDataToFolder, createFolder
-from skimage.filters import threshold_otsu
+from skimage.filters import threshold_otsu, threshold_sauvola
 from skimage import io
 import os
 import matplotlib.pyplot as plt
 from PIL import Image
 
-def binarization(folder, files):
+def binarization(folder, files, method, window_size):
     binarized_folder = os.path.join(folder, 'binarized/')
     createFolder(binarized_folder)
 
     for f in files:
         img_file = folder + f + ".jpg"
         img = io.imread(img_file)
-        thresh = threshold_otsu(img)
+        if method == "sauvola":
+            thresh = threshold_sauvola(img, window_size)
+        elif method == "otsu":
+            thresh = threshold_otsu(img)
+
         binary_img = img > thresh
         bin_img_file = binarized_folder + f + ".png"
-        print("image type: ", binary_img.dtype)
-        print("binary image path: ", bin_img_file )
         binary_img = binary_img.astype('uint8')
         io.imsave(bin_img_file, 255 * binary_img)
 

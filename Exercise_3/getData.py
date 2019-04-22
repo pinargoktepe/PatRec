@@ -11,12 +11,17 @@ def writeDataToFolder(listOfFiles, imgFolder, destFolder, ext):
         copyfile(src, dest)
 
 def createFolder(folderName):
-    try:
-        os.mkdir(folderName)
-    except OSError:
-        print("Creation of the directory %s failed" % folderName)
+
+    if os.path.isdir(folderName) == False:
+        try:
+            os.mkdir(folderName)
+        except OSError:
+            print("Creation of the directory %s failed" % folderName)
+        else:
+            print("Successfully created the directory %s " % folderName)
+
     else:
-        print("Successfully created the directory %s " % folderName)
+        print("%s already exists!" % folderName)
 
 def splitData(folder, train_file, val_file):
 
@@ -25,10 +30,8 @@ def splitData(folder, train_file, val_file):
 
     lines_train = train.read().split('\n')
     lines_train = lines_train[0:len(lines_train)-1]
-    print(lines_train)
     lines_val = val.read().split('\n')
     lines_val = lines_val[0:len(lines_val)-1]
-    print(lines_val)
     train.close()
     val.close()
 

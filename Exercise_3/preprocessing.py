@@ -3,7 +3,13 @@ from skimage.filters import threshold_otsu, threshold_sauvola
 from skimage import io
 import os
 import matplotlib.pyplot as plt
-from PIL import Image
+from svglib.svglib import svg2rlg
+from svgpathtools import svg2paths
+from svg.path import parse_path
+from xml.dom import minidom
+
+from PIL import Image, ImageDraw
+import numpy as np
 
 def binarization(folder, files, method, window_size):
     binarized_folder = os.path.join(folder, 'binarized/')
@@ -42,3 +48,38 @@ def showImg(img, binary_img, thresh):
     ax[2].set_title('Thresholded')
     ax[2].axis('off')
     plt.show()
+
+
+def cropImage(maskFile, imgFile, croppedImg_folder):
+
+    img = Image.open(imgFile).convert("RGBA")
+    imArray = np.asarray(img)
+    #Read svg file to get the path coordinates
+    paths, attributes = svg2paths(maskFile)
+    mask_polygon = []
+
+    for k, v in enumerate(attributes):
+        path = parse_path(v['d'])
+        path.closed
+        n = int(path.length())
+        #calcualate the cartesian coordinates from complex ones. real part of the complex number is coordinate of x axis and
+        #imaginary part corresponds to y-axis coordinates
+        pts = [(p.real, p.imag) for p in (path.point(i / n) for i in range(0, n + 1))]
+        mask_polygon.append(pts)
+
+    for i in range(len(mask_polygon)):
+        print(mask_polygon[i])
+        #create mask image
+        imgPolygon = Image.new('L', (imArray.shape[1], imArray.shape[0]), 0)
+
+        #create an image for storing the resulting image after mask is applied
+        newImArray = np.empty(imArray.shape, dtype='uint8')
+        newImArray[:, :, :3] = imArray[:, :, :3]
+        newImg_file = croppedImg_folder + "/" + str(i) + ".png"
+
+        ImageDraw.Draw(imgPolygon).polygon(mask_polygon[i], outline=1, fill=1)
+        new_polygon = np.array(imgPolygon)
+        newImArray[:, :, 3] = new_polygon * 255 # Apply mask
+
+        newIm = Image.fromarray(newImArray, "RGBA")
+        newIm.save(newImg_file)

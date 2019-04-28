@@ -1,10 +1,6 @@
 from getData import splitData, createFolder
 from preprocessing import binarization, cropImage, scaleImage
 import os
-from PIL import Image
-import numpy as np
-import cv2
-import PIL.ImageOps as ImageOps
 
 
 def main(folder, train_file, val_file, binarization_method, window_size):

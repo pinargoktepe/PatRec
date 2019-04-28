@@ -3,10 +3,9 @@ from skimage.filters import threshold_otsu, threshold_sauvola
 from skimage import io
 import os
 import matplotlib.pyplot as plt
-from svglib.svglib import svg2rlg
 from svgpathtools import svg2paths
 from svg.path import parse_path
-from xml.dom import minidom
+import PIL.ImageOps as ImageOps
 
 from PIL import Image, ImageDraw
 import numpy as np
@@ -52,7 +51,7 @@ def showImg(img, binary_img, thresh):
 
 def cropImage(maskFile, imgFile, croppedImg_folder):
 
-    img = Image.open(imgFile).convert("RGBA")
+    img = Image.open(imgFile).convert("RGB")
     imArray = np.asarray(img)
     #Read svg file to get the path coordinates
     paths, attributes = svg2paths(maskFile)
@@ -70,16 +69,22 @@ def cropImage(maskFile, imgFile, croppedImg_folder):
     for i in range(len(mask_polygon)):
         print(mask_polygon[i])
         #create mask image
-        imgPolygon = Image.new('L', (imArray.shape[1], imArray.shape[0]), 0)
-
+        imgPolygon = Image.new('L', (imArray.shape[1], imArray.shape[0]))
         #create an image for storing the resulting image after mask is applied
-        newImArray = np.empty(imArray.shape, dtype='uint8')
-        newImArray[:, :, :3] = imArray[:, :, :3]
+        #newImArray = np.empty(imArray.shape, dtype='uint8')
+        newImArray = np.copy(imArray)
         newImg_file = croppedImg_folder + "/" + str(i) + ".png"
 
-        ImageDraw.Draw(imgPolygon).polygon(mask_polygon[i], outline=1, fill=1)
+        ImageDraw.Draw(imgPolygon).polygon(mask_polygon[i], outline=1, fill=1) # outline=1, fill=1
         new_polygon = np.array(imgPolygon)
-        newImArray[:, :, 3] = new_polygon * 255 # Apply mask
 
-        newIm = Image.fromarray(newImArray, "RGBA")
-        newIm.save(newImg_file)
+        newImArray[:, :, 0] = np.multiply(newImArray[:, :, 0], new_polygon) #np.multiply(newImArray[:, :, 1], new_polygon * 255) # Apply mask
+        newImArray[:, :, 1] = np.multiply(newImArray[:, :, 1], new_polygon) #np.multiply(newImArray[:, :, 2], new_polygon * 255)  # Apply mask
+        newImArray[:, :, 2] = np.multiply(newImArray[:, :, 2], new_polygon) #np.multiply(newImArray[:, :, 3], new_polygon * 255)  # Apply mask
+
+        #Image.fromarray(newImArray, "RGB").show()
+        newIm = Image.fromarray(newImArray, "RGB")
+        invert_im = ImageOps.invert(newIm)
+        image_cropped = newIm.crop(newIm.getbbox())
+        image_cropped.convert("L")
+        image_cropped.save(newImg_file)

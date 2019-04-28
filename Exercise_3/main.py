@@ -1,6 +1,11 @@
 from getData import splitData, createFolder
 from preprocessing import binarization, cropImage
 import os
+from PIL import Image
+import numpy as np
+import cv2
+import PIL.ImageOps as ImageOps
+
 
 def main(folder, train_file, val_file, binarization_method, window_size):
     #If binarization method is Otsu, then window size will not be used
@@ -10,9 +15,9 @@ def main(folder, train_file, val_file, binarization_method, window_size):
 
     #Apply requested method for binarization of images in training and validation folders.
     print("Binarization of training set")
-    binarization(train_folder, files_train, binarization_method, window_size)
+    #binarization(train_folder, files_train, binarization_method, window_size)
     print("Binarization of validation set")
-    binarization(validation_folder, files_val, binarization_method, window_size)
+    #binarization(validation_folder, files_val, binarization_method, window_size)
 
     #Use polygons as clipping mask
     for f in files_train:
@@ -31,6 +36,8 @@ def main(folder, train_file, val_file, binarization_method, window_size):
         croppedImg_folder = os.path.join(imgFolder, f)
         createFolder(croppedImg_folder)
         cropImage(maskFile, imgFile, croppedImg_folder)
+
+
 
 
 folder = "../../PatRec17_KWS_Data/"

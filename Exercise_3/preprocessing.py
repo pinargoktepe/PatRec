@@ -10,6 +10,11 @@ import PIL.ImageOps as ImageOps
 from PIL import Image, ImageDraw
 import numpy as np
 
+import glob
+import re #regex interpretation
+
+
+
 def binarization(folder, files, method, window_size):
     binarized_folder = os.path.join(folder, 'binarized/')
     createFolder(binarized_folder)

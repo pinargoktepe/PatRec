@@ -2,6 +2,7 @@ from getData import splitData, createFolder
 from preprocessing import binarization, cropImage, scaleImage
 import os
 
+
 def preprocessing_main(folder, train_file, val_file, binarization_method, window_size):
     #If binarization method is Otsu, then window size will not be used
 
@@ -42,5 +43,3 @@ def preprocessing_main(folder, train_file, val_file, binarization_method, window
     #DTW and feature extraction
     train_img_folder =  "PatRec17_KWS_Data/dataset/train/scaled"
     validation_img_folder = "PatRec17_KWS_Data/dataset/validation/scaled"
-
-

@@ -60,6 +60,7 @@ def cropImage(maskFile, imgFile, croppedImg_folder):
     #Read svg file to get the path coordinates
     paths, attributes = svg2paths(maskFile)
     mask_polygon = []
+    ids = []
 
     for k, v in enumerate(attributes):
         path = parse_path(v['d'])
@@ -69,6 +70,7 @@ def cropImage(maskFile, imgFile, croppedImg_folder):
         #imaginary part corresponds to y-axis coordinates
         pts = [(p.real, p.imag) for p in (path.point(i / n) for i in range(0, n + 1))]
         mask_polygon.append(pts)
+        ids.append(v['id']) #extract id
 
     for i in range(len(mask_polygon)):
         print(mask_polygon[i])
@@ -76,7 +78,7 @@ def cropImage(maskFile, imgFile, croppedImg_folder):
         imgPolygon = Image.new('L', (imArray.shape[1], imArray.shape[0]))
         #create an image for storing the resulting image after mask is applied
         newImArray = np.copy(imArray)
-        newImg_file = croppedImg_folder + "/" + str(i) + ".png"
+        newImg_file = croppedImg_folder + "/" + str(ids[i]) + ".png"
 
         ImageDraw.Draw(imgPolygon).polygon(mask_polygon[i], outline=1, fill=1) # outline=1, fill=1
         new_polygon = np.array(imgPolygon)
@@ -90,12 +92,6 @@ def cropImage(maskFile, imgFile, croppedImg_folder):
         image_cropped = newIm.crop(newIm.getbbox())
         image_cropped.convert("L")
         image_cropped.save(newImg_file)
-
-        # folder = train_folder + "binarized"
-        # folder = validation_folder + "binarized"
-        # folder = folder_list[0]
-        # imgFile = imgList[0]
-        # folder = "/PatRec17_KWS_Data/dataset/train/binarized"
 
 def scaleImage(folder_list):
     """

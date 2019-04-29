@@ -33,13 +33,15 @@ def spot_keywords(keyword_image_path, normalize, comparison_words_folder):
 
 
     print(sorted(distances,key=lambda l:l[1]))
-    return 0  # return the image? position? nearest neighbors?
+    return distances  # return the image? position? nearest neighbors?
 
 
 if __name__ == "__main__":
 
     keyword_image_path = train_img_folder + "/271/20.png"  # the input image, i.e. the word to spot in the document
     comparison_words_folder = train_img_folder + "/271/"   # the words from the document in which the word is being looked for (folder path)
+
+
 
     spot_keywords(keyword_image_path, normalize = True, comparison_words_folder=comparison_words_folder)
 

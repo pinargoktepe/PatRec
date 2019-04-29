@@ -118,15 +118,16 @@ def scaleImage(folder_list):
     if max(Image.open(img, 'r').size for img in imgList)[0] > maxSeqLength:
         maxSeqLength = max(Image.open(img, 'r').size for img in imgList)[0]
 
+    listOfFiles = []
     # Normalize images to maxSeqLength
     for folder in folder_list:
         for imgFile in imgList:
             img = Image.open(imgFile)  # .convert("RGBA")
-            print("Rescaling %s to width = %d pixels" % (img.filename, maxSeqLength[0]))
+            print("Rescaling %s to width = %d pixels" % (img.filename, maxSeqLength))
 
             imgWidth, imgHeight = img.size
-            imgScaled = img.resize((maxSeqLength[0],
-                                    int(round(imgHeight * maxSeqLength[0] / imgWidth))))
+            imgScaled = img.resize((maxSeqLength,
+                                    int(round(imgHeight * maxSeqLength / imgWidth)))) #maxSeqLength[0]
 
             # Get the subfolder
             subfolderPattern = re.compile('/\d{1,3}')
@@ -141,4 +142,8 @@ def scaleImage(folder_list):
             # print(type(imgName))
 
             # Save the scaled image
-            imgScaled.save(scaled_folder + imgName + '.png')
+            save_file = scaled_folder + imgName + '.png'
+            listOfFiles.append(save_file)
+            imgScaled.save(save_file)
+
+    return listOfFiles

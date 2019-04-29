@@ -1,6 +1,7 @@
 from getData import splitData, createFolder
 from preprocessing import binarization, cropImage, scaleImage
 import os
+from keyword_spotting import spot_keywords
 
 
 def main(folder, train_file, val_file, binarization_method, window_size):
@@ -11,10 +12,10 @@ def main(folder, train_file, val_file, binarization_method, window_size):
 
     #Apply requested method for binarization of images in training and validation folders.
     print("Binarization of training set")
-    binarization(train_folder, files_train, binarization_method, window_size)
+    #binarization(train_folder, files_train, binarization_method, window_size)
     print("Binarization of validation set")
-    binarization(validation_folder, files_val, binarization_method, window_size)
-
+    #binarization(validation_folder, files_val, binarization_method, window_size)
+    '''
     #Use polygons as clipping mask
     for f in files_train:
         imgFolder = train_folder + "/binarized/"
@@ -31,13 +32,26 @@ def main(folder, train_file, val_file, binarization_method, window_size):
         croppedImg_folder = os.path.join(imgFolder, f)
         createFolder(croppedImg_folder)
         cropImage(maskFile, imgFile, croppedImg_folder)
-
+    '''
     #Normalize images to same width aka same sequence length
-    folder_list = [train_folder + "binarized/", validation_folder + "binarized/"]
-    scaleImage(folder_list)
+    #PG: There is problem related to loading folders from a list. That is why i separately run the scale image function for each folder.
+    #    Otherwise it only scales images in the last folder
+    folder_list = [train_folder + "binarized/"]
+    scaled_train_files = scaleImage(folder_list)
+    folder_list = [validation_folder + "binarized/"]
+    scaled_validation_files = scaleImage(folder_list)
 
-
-
+    #DTW and feature extraction
+    train_img_folder =  "PatRec17_KWS_Data/dataset/train/scaled"
+    validation_img_folder = "PatRec17_KWS_Data/dataset/validation/scaled"
+    '''
+    distanceMat = []
+    for f in scaled_train_files:
+        comparison_words_folder = f[:f.rfind('/')]
+        print(comparison_words_folder)
+        distance = spot_keywords(f, normalize=True, comparison_words_folder=comparison_words_folder)
+        distanceMat.append(distance)
+    '''
 
 folder = "../../PatRec17_KWS_Data/"
 train_file = folder + "task/train.txt"

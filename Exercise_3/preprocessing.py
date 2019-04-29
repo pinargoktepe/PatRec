@@ -93,40 +93,46 @@ def cropImage(maskFile, imgFile, croppedImg_folder):
         image_cropped.convert("L")
         image_cropped.save(newImg_file)
 
+
+
 def scaleImage(folder_list):
     """
     Rescale images to overall maximal image width, while keeping aspect ratio.
     """
+    imgList = []
+    listOfFiles = []
+    
+    # Regex to grep image subfolder- and filename
+    imgPattern = re.compile('/\d{1,3}/\d{1,3}-\d{2}-\d{2}')
+    subfolderPattern = re.compile('/\d{1,3}')
+    
     for folder in folder_list:
         # New folder for scaled images
         scaled_folder = os.path.join(folder, 'scaled')
         createFolder(scaled_folder)
-
-        imgList = []
+        
         imgList.extend(glob.glob(folder + '/*/*.png', recursive=True))
-
-        # Regex to grep image filename
-        imgPattern = re.compile('/\d{1,3}/\d{1,3}')
-
-    # Get maximal image width
-    maxSeqLength = 0
-
-    if max(Image.open(img, 'r').size for img in imgList)[0] > maxSeqLength:
-        maxSeqLength = max(Image.open(img, 'r').size for img in imgList)[0]
-
-    listOfFiles = []
+        
+        # Get maximal image width
+        maxSeqLength = 0
+    
+        if max(Image.open(img, 'r').size for img in imgList)[0] > maxSeqLength:
+            maxSeqLength = max(Image.open(img, 'r').size for img in imgList)[0]
+    
     # Normalize images to maxSeqLength
     for folder in folder_list:
+        imgList = glob.glob(folder + '/*/*.png', recursive=True)
+        scaled_folder = os.path.join(folder, 'scaled')
+
         for imgFile in imgList:
             img = Image.open(imgFile)  # .convert("RGBA")
             print("Rescaling %s to width = %d pixels" % (img.filename, maxSeqLength))
 
             imgWidth, imgHeight = img.size
             imgScaled = img.resize((maxSeqLength,
-                                    int(round(imgHeight * maxSeqLength / imgWidth)))) #maxSeqLength[0]
+                                    int(round(imgHeight * maxSeqLength / imgWidth))))
 
             # Get the subfolder
-            subfolderPattern = re.compile('/\d{1,3}')
             subfolderName = subfolderPattern.search(img.filename).group()
 
             # Create subfolder if necessary
@@ -139,7 +145,19 @@ def scaleImage(folder_list):
 
             # Save the scaled image
             save_file = scaled_folder + imgName + '.png'
+            #save_file = folder + 'scaled' + imgName + '.png'
             listOfFiles.append(save_file)
             imgScaled.save(save_file)
-
+            
     return listOfFiles
+
+## Keep for debugging
+#folder = train_folder + "binarized"
+#folder = validation_folder + "binarized"
+#folder = folder_list[0]
+#imgFile = imgList[30]
+#folder = "/PatRec17_KWS_Data/dataset/train/binarized"
+
+
+
+

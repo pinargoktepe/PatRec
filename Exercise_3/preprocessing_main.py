@@ -33,12 +33,8 @@ def preprocessing_main(folder, train_file, val_file, binarization_method, window
         cropImage(maskFile, imgFile, croppedImg_folder)
 
     #Normalize images to same width aka same sequence length
-    #PG: There is problem related to loading folders from a list. That is why i separately run the scale image function for each folder.
-    #    Otherwise it only scales images in the last folder
-    folder_list = [train_folder + "binarized/"]
-    scaled_train_files = scaleImage(folder_list)
-    folder_list = [validation_folder + "binarized/"]
-    scaled_validation_files = scaleImage(folder_list)
+    folder_list = [train_folder + "binarized/", validation_folder + "binarized/"]
+    scaleImage(folder_list)
 
     #DTW and feature extraction
     train_img_folder =  "PatRec17_KWS_Data/dataset/train/scaled"

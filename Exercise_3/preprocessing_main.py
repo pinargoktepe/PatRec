@@ -35,7 +35,3 @@ def preprocessing_main(folder, train_file, val_file, binarization_method, window
     #Normalize images to same width aka same sequence length
     folder_list = [train_folder + "binarized/", validation_folder + "binarized/"]
     scaleImage(folder_list)
-
-    #DTW and feature extraction
-    train_img_folder =  "PatRec17_KWS_Data/dataset/train/scaled"
-    validation_img_folder = "PatRec17_KWS_Data/dataset/validation/scaled"

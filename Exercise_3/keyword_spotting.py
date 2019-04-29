@@ -4,18 +4,55 @@ import cv2
 import glob, os
 
 
+
+# path definitions (for testing)
 img_folder = "PatRec17_KWS_Data/dataset"
-train_img_folder = img_folder + "/train/scaled"
-val_img_folder = img_folder + "/validation/scaled" 
+train_img_folder = img_folder + "/train/binarized/scaled"
+val_img_folder = img_folder + "/validation/binarized/scaled" 
+transcription_source_path = "PatRec17_KWS_Data/ground-truth/transcription.txt"
+
+
+
 
 
 """
-Given an input image (word image path), this function will return the [...]
+Input: .txt file of all keywords in the shape of "....270-02-01 t-e-s-t...."
+Returns: dictionary where the key is the "image name", i.e. 270-02-01 and the value the transcription
+To find a matching keyword, travers the dict for a match and return the counterparty
 
-For each image pair, the extracted features (global features, # transitions, %black, gravity center) 
+"""
+def get_transcriptions(txt_file):
+    # open the txt file, read it, and store it in a simple list
+    print("Reading transcriptions file...")
+    f = open(txt_file, 'r')
+    input_text = f.readlines()
+    transcriptions = [text.strip() for text in input_text] # remove the unnecessary linebreaks
+    f.close()
+
+    # as of now: a list where transcription[x] = "270-02-01 t-e-s-t"
+    # split it further once again to obtain: transcription[x] = ["270-02-01", "t-e-s-t"]
+    transcriptions = [row.split() for row in transcriptions]
+
+    # to end, convert it into a dictionary for easier matching (not a big list, so its ok)
+    trans_dict = dict([])
+    trans_dict = {trans[0]: trans[1] for trans in transcriptions}
+
+    return trans_dict
+
+
+
+
+
+
+"""
+Given an input image (word image path), this function will return the sorted distances closest to the input.
+
+For each image pair, the extracted features (global features: # transitions, %black, gravity center) 
 are calculated and then applied in a DTW algorithm to find the distance. 
+
+REQUIRES PYTHON 3.5+ FOR RECURSIVE FILE SEARCH !!!
 """
-def spot_keywords(keyword_image_path, normalize, comparison_words_folder):
+def get_distances(keyword_image_path, normalize, comparison_words_folder):
 
     # extract the features from the given keyword to spot in the document
     keyword_features = extract_features(keyword_image_path, normalize)
@@ -23,7 +60,8 @@ def spot_keywords(keyword_image_path, normalize, comparison_words_folder):
 
     print("Calculating distances...")
     distances = []
-    for compared_word in glob.glob(comparison_words_folder + "/*" + ".png"):
+
+    for compared_word in glob.glob(comparison_words_folder + "/**/*" + ".png"): # for each word in each subfolder (OS dependant?)
         print(compared_word)
         # 1) calculate the feature vector for the second image
         word_features = extract_features(compared_word, normalize)
@@ -32,16 +70,55 @@ def spot_keywords(keyword_image_path, normalize, comparison_words_folder):
         distances.append([os.path.basename(compared_word), dtw_distance])
 
 
-    print(sorted(distances,key=lambda l:l[1]))
-    return distances  # return the image? position? nearest neighbors?
-
-
-if __name__ == "__main__":
-
-    keyword_image_path = train_img_folder + "/271/20.png"  # the input image, i.e. the word to spot in the document
-    comparison_words_folder = train_img_folder + "/271/"   # the words from the document in which the word is being looked for (folder path)
+    sorted_distances = sorted(distances,key=lambda l:l[1])
+    return sorted_distances 
 
 
 
-    spot_keywords(keyword_image_path, normalize = True, comparison_words_folder=comparison_words_folder)
+
+"""
+Main function of the post-processing part:
+Obtains the transcriptions, extracts the features for each word comparison,
+calculated the DTW distance and returns sorted distances.
+Prints a top 10 rank list of the closest matches.
+
+Input: keyword_image_path : The keyword to spot in the documents, given as a filepath
+       validation_set: Compare the keyword to the word images in this folder(-path)
+
+Output: a printed rank list. also returns the sorted distances for optional further tasks.
+"""
+def spot_keywords(keyword_image_path, validation_set):
+
+    # get the transcriptions
+    transcriptions = get_transcriptions(transcription_source_path)
+
+    # return sorted distances (and matching keywords) given an input keyword
+    sorted_distances = get_distances(keyword_image_path, normalize = True, comparison_words_folder=validation_set)
+
+
+    # return the top 10 (arbitrary, can be changed) results
+    print("   ")
+    print("Keyword spotting: Find the following keyword:")
+
+    filename = os.path.basename(keyword_image_path)[:-4]
+    keyword_transcription = transcriptions.get(filename)
+    distance = 0
+    print("ID: {0}, \t transcription: {1}, \t distance: {2:.2f}".format(filename, keyword_transcription, distance))
+
+
+    print("\nTop 10 spotted keywords, closest first: \n")
+
+    for rank in range(0,10):
+        filename = sorted_distances[rank][0] # the "filename", png extension removed below
+        filename = filename[:-4]
+        keyword_transcription = transcriptions.get(filename) # get the transcription
+        distance = sorted_distances[rank][1]
+
+        print("ID: {0},\t transcription: {1:<30s} \t distance: {2:.2f}".format(filename, keyword_transcription, distance))
+
+    return sorted_distances #optional
+
+    
+
+
 

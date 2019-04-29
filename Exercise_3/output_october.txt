@@ -1,0 +1,35 @@
+[processing...]
+PatRec17_KWS_Data/dataset/validation/binarized/scaled\304\304-34-03.png
+PatRec17_KWS_Data/dataset/validation/binarized/scaled\304\304-34-04.png
+PatRec17_KWS_Data/dataset/validation/binarized/scaled\304\304-34-05.png
+PatRec17_KWS_Data/dataset/validation/binarized/scaled\304\304-34-06.png
+PatRec17_KWS_Data/dataset/validation/binarized/scaled\304\304-34-07.png
+PatRec17_KWS_Data/dataset/validation/binarized/scaled\304\304-34-08.png
+PatRec17_KWS_Data/dataset/validation/binarized/scaled\304\304-34-09.png
+PatRec17_KWS_Data/dataset/validation/binarized/scaled\304\304-35-01.png
+PatRec17_KWS_Data/dataset/validation/binarized/scaled\304\304-35-02.png
+PatRec17_KWS_Data/dataset/validation/binarized/scaled\304\304-35-03.png
+PatRec17_KWS_Data/dataset/validation/binarized/scaled\304\304-35-04.png
+PatRec17_KWS_Data/dataset/validation/binarized/scaled\304\304-35-05.png
+PatRec17_KWS_Data/dataset/validation/binarized/scaled\304\304-35-06.png
+PatRec17_KWS_Data/dataset/validation/binarized/scaled\304\304-35-07.png
+PatRec17_KWS_Data/dataset/validation/binarized/scaled\304\304-35-08.png
+PatRec17_KWS_Data/dataset/validation/binarized/scaled\304\304-35-09.png
+PatRec17_KWS_Data/dataset/validation/binarized/scaled\304\304-35-10.png
+PatRec17_KWS_Data/dataset/validation/binarized/scaled\304\304-35-11.png
+
+Keyword spotting: Find the following keyword:
+ID: 270-01-06,   transcription: O-c-t-o-b-e-r,   distance: 0.00
+
+Top 10 spotted keywords, closest first:
+
+ID: 300-27-07,   transcription: r-e-c-e-i-v-e                    distance: 16.35
+ID: 302-23-05,   transcription: m-o-n-e-y-s_cm                   distance: 16.51
+ID: 304-07-04,   transcription: t-h-e-m-s_pt                     distance: 16.59
+ID: 302-04-08,   transcription: l-i-t-t-l-e                      distance: 16.78
+ID: 303-22-10,   transcription: o-n                              distance: 16.82
+ID: 303-05-08,   transcription: n-e-c-e-s_s-s_mi                 distance: 16.94
+ID: 301-11-03,   transcription: d-e-l-a-y-i-n-g                  distance: 17.07
+ID: 303-09-09,   transcription: t-h-a-t                          distance: 17.22
+ID: 304-06-09,   transcription: w-e                              distance: 17.31
+ID: 300-35-08,   transcription: d-e-s_mi                         distance: 17.34

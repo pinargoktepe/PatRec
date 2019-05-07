@@ -16,5 +16,5 @@ Patrick Hodel
 * [Exercise 2c](Exercise_2c/Exercise2c_CNN.md)
 * [Exercise 2d](Exercise_2d_v2/ReadMe.md)
 * [Exercise 3](Exercise_3/ReadMe.md)
-* [Exercise 2d](Exercise_4/ReadMe.md)
+* [Exercise 4](Exercise_4/ReadMe.md)
 

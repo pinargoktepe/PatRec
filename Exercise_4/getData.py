@@ -6,7 +6,6 @@ def getUsers(usersFile):
     users = open(usersFile, "r")
     users = users.read().split('\n')
     users = users[0:len(users)-1]
-    print(users)
     return users
 
 
@@ -14,8 +13,8 @@ def getGT(gtFile):
 
     gt = open(gtFile, "r")
     gt_lines = gt.read().split('\n')
+    gt_lines = gt_lines[0:len(gt_lines) - 1]
     gt_users, gt_sigs, gt_labels  = [], [], []
-    print(gt_lines)
     for e in gt_lines:
         ind_dash = e.find('-')
         ind_space = e.find(' ')
@@ -35,30 +34,17 @@ def getAllFileNames(folderpath):
                 files.append(os.path.join(r, file))
     return files
 
-def main(usersFile, gtFile, enrollmentFolder, verificationFolder):
+def getData(usersFile, gtFile, enrollmentFolder, verificationFolder):
 
     #Get users
     users = getUsers(usersFile)
 
     #Get GT
     gt_users, gt_sigs, gt_labels = getGT(gtFile)
-    print(gt_users[0:3])
-    print(gt_sigs[0:3])
-    print(gt_labels[0:3])
 
     #All enrollment files in enrollment folder
     enrollmentFiles = getAllFileNames(enrollmentFolder)
-    print(len(enrollmentFiles))
-    #Get content of an enrollment file
-    data = np.loadtxt(enrollmentFiles[0])
+    verification_files = getAllFileNames(verificationFolder)
 
+    return users, gt_users, gt_sigs, gt_labels, enrollmentFiles, verification_files
 
-
-
-
-sigVerFolder = "../../../Desktop/SignatureVerification/"
-usersFile = sigVerFolder + "users.txt"
-gtFile = sigVerFolder + "gt.txt"
-enrollmentFolder = sigVerFolder + "enrollment/"
-verificationFolder = sigVerFolder + "verification/"
-main(usersFile, gtFile, enrollmentFolder, verificationFolder)

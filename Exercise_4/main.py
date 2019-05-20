@@ -106,7 +106,7 @@ def main():
     enrollmentFolder = sigVerFolder + "enrollment/"
     verificationFolder = sigVerFolder + "verification/"
     users, gt_users, gt_sigs, gt_labels, enrollmentFiles, verificationFiles = getData(usersFile, gtFile, enrollmentFolder, verificationFolder)
-    users = users
+    users = users[0:2]
     distances, mAPs = [], []
     print("Calculating distances...")
     for ind in range(len(users)):
@@ -121,7 +121,7 @@ def main():
         for vs in range(len(verification_signature_ids)):
             distance = get_distances(users[ind], verification_signature_ids[vs], user_enrollments, user_verifications[vs])
             dst.append(distance)
-            #print("distances ", vs, ": ", distance)
+            print("distances ", vs, ": ", distance)
 
         for i in range(len(dst)):
             m = getMAP(gt_users, gt_sigs, gt_labels, users, dst[i], threshold=250)

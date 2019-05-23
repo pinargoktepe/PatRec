@@ -22,8 +22,9 @@ def get_distances(user_id, ver_sig_id, enrollment_files, verification_file, norm
         dtw_distance = get_dtw_distance(verification_features, enrollment_features)
         distances.append(dtw_distance)
 
-    sorted_distances = sorted(distances,key=lambda l:l[3])
-    return sorted_distances
+    print("distances: ", distances)
+    #sorted_distances = sorted(distances,key=lambda l:l[3])
+    return distances
 
 
 def getFiles_byUser(user_id, files):
@@ -106,7 +107,7 @@ def main():
     enrollmentFolder = sigVerFolder + "enrollment/"
     verificationFolder = sigVerFolder + "verification/"
     users, gt_users, gt_sigs, gt_labels, enrollmentFiles, verificationFiles = getData(usersFile, None, enrollmentFolder, verificationFolder) #gtFile=None
-    users = users[0:2]
+
     result = ''
     distances, mAPs = [], []
     print("Calculating distances...")
@@ -122,7 +123,7 @@ def main():
         #print("verifications ids: ", verification_signature_ids)
         for vs in range(len(verification_signature_ids)):
             distance = get_distances(users[ind], verification_signature_ids[vs], user_enrollments, user_verifications[vs])
-            print("distances ", vs, ": ", distance)
+            print("min dist ", str(min(distance)))
             result += str(verification_signature_ids[vs]) + ", " + str(min(distance))
             if vs < len(verification_signature_ids)-1:
                 result += ", "

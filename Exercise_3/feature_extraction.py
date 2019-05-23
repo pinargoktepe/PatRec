@@ -62,9 +62,12 @@ def extract_gravity_center(window):
 
 # given an input of an image (path), extract and normalize (optional) the image features
 def extract_features(image_path, normalize=True):
+    #print("extract features: ",image_path)
     image = cv2.imread(image_path) # your image path
+
     #image = cv2.resize(image, dsize=(100, 100), interpolation=cv2.INTER_LINEAR)  ### quick simple alternative to scaling (if errors)
     image = np.asarray(image)
+    #print("image shape: ", image.shape)
     image_height = image.shape[0]
     image_width = image.shape[1]
     stepSize = 1 # 1px offset

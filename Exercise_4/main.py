@@ -20,7 +20,7 @@ def get_distances(user_id, ver_sig_id, enrollment_files, verification_file, norm
         # compute features for enrollment signatures of given user
         enrollment_features = extract_features(en_data, normalize)
         dtw_distance = get_dtw_distance(verification_features, enrollment_features)
-        distances.append([user_id, ver_sig_id, ind, dtw_distance]) # [user number, verification signature number, enrollment signature number, distance]-> eg: [001, 01, 01, distance]
+        distances.append(dtw_distance)
 
     sorted_distances = sorted(distances,key=lambda l:l[3])
     return sorted_distances
@@ -99,17 +99,19 @@ def getMAP(gt_users, gt_sigs, gt_labels, users, distances, threshold):
     return map_values
 
 def main():
-
-    sigVerFolder = "../../../Desktop/SignatureVerification/"
+    output_file = "results_sig_ver.txt"
+    sigVerFolder = "../../../Desktop/TestSignatures/"
     usersFile = sigVerFolder + "users.txt"
-    gtFile = sigVerFolder + "gt.txt"
+    #gtFile = sigVerFolder + "gt.txt"
     enrollmentFolder = sigVerFolder + "enrollment/"
     verificationFolder = sigVerFolder + "verification/"
-    users, gt_users, gt_sigs, gt_labels, enrollmentFiles, verificationFiles = getData(usersFile, gtFile, enrollmentFolder, verificationFolder)
+    users, gt_users, gt_sigs, gt_labels, enrollmentFiles, verificationFiles = getData(usersFile, None, enrollmentFolder, verificationFolder) #gtFile=None
     users = users[0:2]
+    result = ''
     distances, mAPs = [], []
     print("Calculating distances...")
     for ind in range(len(users)):
+        result += str(users[ind])+", "
         print("User: ", users[ind])
         dst = []
         user_enrollments, enrollment_signature_ids = getFiles_byUser(users[ind], enrollmentFiles)
@@ -120,9 +122,19 @@ def main():
         #print("verifications ids: ", verification_signature_ids)
         for vs in range(len(verification_signature_ids)):
             distance = get_distances(users[ind], verification_signature_ids[vs], user_enrollments, user_verifications[vs])
-            dst.append(distance)
             print("distances ", vs, ": ", distance)
+            result += str(verification_signature_ids[vs]) + ", " + str(min(distance))
+            if vs < len(verification_signature_ids)-1:
+                result += ", "
+            else:
+                result += "\n"
+                print(result)
 
+    file = open(output_file,  "w+")
+    file.write(result)
+    file.close()
+
+    '''
         for i in range(len(dst)):
             m = getMAP(gt_users, gt_sigs, gt_labels, users, dst[i], threshold=250)
             mAPs.append(m)
@@ -131,6 +143,7 @@ def main():
     print("Calculating mAP..")
     final_map = float(np.sum(mAPs)/len(mAPs))
     print("final mAP: ", final_map)
+    '''
 
 main()
 

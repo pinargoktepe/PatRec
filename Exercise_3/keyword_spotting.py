@@ -6,14 +6,11 @@ import glob, os
 
 
 # path definitions (for testing)
-img_folder = "PatRec17_KWS_Data/dataset"
-train_img_folder = img_folder + "/train/binarized/scaled"
-val_img_folder = img_folder + "/validation/binarized/scaled" 
-transcription_source_path = "PatRec17_KWS_Data/ground-truth/transcription.txt"
-
-
-
-
+folder_test = "../../TestKWS/"
+folder_train = "../../PatRec17_KWS_Data/"
+train_img_folder = folder_train + "/dataset/train/binarized/scaled"
+#val_img_folder = img_folder + "/validation/binarized/scaled"
+transcription_source_path = folder_test + "task/keywords.txt"
 
 """
 Input: .txt file of all keywords in the shape of "....270-02-01 t-e-s-t...."
@@ -28,20 +25,17 @@ def get_transcriptions(txt_file):
     input_text = f.readlines()
     transcriptions = [text.strip() for text in input_text] # remove the unnecessary linebreaks
     f.close()
-
+    #print(transcriptions)
+    transcriptions = transcriptions[:len(transcriptions)-1]
     # as of now: a list where transcription[x] = "270-02-01 t-e-s-t"
     # split it further once again to obtain: transcription[x] = ["270-02-01", "t-e-s-t"]
     transcriptions = [row.split() for row in transcriptions]
-
+    #print(transcriptions)
     # to end, convert it into a dictionary for easier matching (not a big list, so its ok)
     trans_dict = dict([])
     trans_dict = {trans[0]: trans[1] for trans in transcriptions}
-
+    #print(trans_dict)
     return trans_dict
-
-
-
-
 
 
 """
@@ -56,7 +50,6 @@ def get_distances(keyword_image_path, normalize, comparison_words_folder):
 
     # extract the features from the given keyword to spot in the document
     keyword_features = extract_features(keyword_image_path, normalize)
-
 
     print("Calculating distances...")
     distances = []
@@ -74,8 +67,6 @@ def get_distances(keyword_image_path, normalize, comparison_words_folder):
     return sorted_distances 
 
 
-
-
 """
 Main function of the post-processing part:
 Obtains the transcriptions, extracts the features for each word comparison,
@@ -87,15 +78,15 @@ Input: keyword_image_path : The keyword to spot in the documents, given as a fil
 
 Output: a printed rank list. also returns the sorted distances for optional further tasks.
 """
-def spot_keywords(keyword_image_path, validation_set):
+def spot_keywords(keyword_image_path, test_set):
 
     # get the transcriptions
     transcriptions = get_transcriptions(transcription_source_path)
 
     # return sorted distances (and matching keywords) given an input keyword
-    sorted_distances = get_distances(keyword_image_path, normalize = True, comparison_words_folder=validation_set)
+    sorted_distances = get_distances(keyword_image_path, normalize = True, comparison_words_folder=test_set)
 
-
+    print("sorted distances: ", sorted_distances)
     # return the top 10 (arbitrary, can be changed) results
     print("   ")
     print("Keyword spotting: Find the following keyword:")
@@ -105,18 +96,23 @@ def spot_keywords(keyword_image_path, validation_set):
     distance = 0
     print("ID: {0}, \t transcription: {1}, \t distance: {2:.2f}".format(filename, keyword_transcription, distance))
 
-
     print("\nTop 10 spotted keywords, closest first: \n")
-
-    for rank in range(0,10):
+    result = ''
+    result += str(keyword_transcription)+", "
+    for rank in range(len(sorted_distances)):
         filename = sorted_distances[rank][0] # the "filename", png extension removed below
         filename = filename[:-4]
-        keyword_transcription = transcriptions.get(filename) # get the transcription
+        #keyword_transcription = transcriptions.get(filename) # get the transcription
         distance = sorted_distances[rank][1]
+        result += filename+', '
+        if rank < len(sorted_distances)-1:
+            result += str(distance)+', '
+        else:
+            result += str(distance)+'\n'
+        #print("ID: {0},\t transcription: {1:<30s} \t distance: {2:.2f}".format(filename, keyword_transcription, distance))
+        #print("ID: {0}, \t transcription: {1}, \t distance: {2:.2f}".format(filename, keyword_transcription, distance))
 
-        print("ID: {0},\t transcription: {1:<30s} \t distance: {2:.2f}".format(filename, keyword_transcription, distance))
-
-    return sorted_distances #optional
+    return sorted_distances, result #optional
 
     
 

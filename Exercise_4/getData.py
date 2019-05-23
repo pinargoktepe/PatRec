@@ -40,7 +40,10 @@ def getData(usersFile, gtFile, enrollmentFolder, verificationFolder):
     users = getUsers(usersFile)
 
     #Get GT
-    gt_users, gt_sigs, gt_labels = getGT(gtFile)
+    if gtFile != None:
+        gt_users, gt_sigs, gt_labels = getGT(gtFile)
+    else:
+        gt_users, gt_sigs, gt_labels = None, None, None
 
     #All enrollment files in enrollment folder
     enrollmentFiles = getAllFileNames(enrollmentFolder)

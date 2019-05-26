@@ -18,3 +18,8 @@ Patrick Hodel
 * [Exercise 3](Exercise_3/ReadMe.md)
 * [Exercise 4](Exercise_4/ReadMe.md)
 
+# Report
+
+The project report can be found in PatRec_2019_Report.doc file
+* [Report](PatRec_2019_Report.doc)
+
